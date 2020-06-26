@@ -1,6 +1,5 @@
 package org.acme;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
@@ -32,6 +31,9 @@ public class ConfigResource {
     @Inject
     FooConfiguration fooConfiguration;
 
+    @ConfigProperty(name = "myapp.secret")
+    SecretCustomValue secret;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
@@ -59,5 +61,12 @@ public class ConfigResource {
     public String getFoo() {
         return String.format("foo.some-text=%s,foo.some-value=%d", 
             fooConfiguration.someText(), fooConfiguration.getSomeValue());
+    }
+
+    @GET
+    @Path("secret")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getSecret() {
+        return String.format("myapp.secret=%s", secret.getValue());
     }
 }
